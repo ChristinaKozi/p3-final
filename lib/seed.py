@@ -1,13 +1,8 @@
-#!/usr/bin/env python3
-# lib/debug.py
-
 from models.__init__ import CONN, CURSOR
 from models.playlist import Playlist
 from models.song import Song
-import ipdb
 
-
-def reset_database():
+def seed_database():
     Song.drop_table()
     Playlist.drop_table()
     Playlist.create_table()
@@ -21,5 +16,6 @@ def reset_database():
     Song.create("Stronger", "Kelly Clarkson", 3.42, workout_tracks.id)
     Song.create("Eye of the Tiger", "Survivor", 4.06, workout_tracks.id)
 
-reset_database()
-ipdb.set_trace()
+
+seed_database()
+print("Seeded database")
