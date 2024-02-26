@@ -1,172 +1,186 @@
-# Phase 3 CLI+ORM Project Template
-#new README TEST
-## Learning Goals
-
-- Discuss the basic directory structure of a CLI.
-- Outline the first steps in building a CLI.
-
----
+# Phase 3 Final
 
 ## Introduction
+Here we have a one-to-many relationship being represented by a Playlist model and a Song model. Using ORM methods and CLI commands we are able to navigate the different functions available to both classes.
 
-You now have a basic idea of what constitutes a CLI. Fork and clone this lesson
-for a project template for your CLI.
+This Command Line Interface (CLI) allows users to manage playlists and songs. It provides a simple and interactive way to perform actions such as creating playlists, adding and deleting songs, and finding playlists or songs by ID or name.
 
-Take a look at the directory structure:
+## Getting Started
+Be sure to run `pipenv install` to install the dependencies and
+`pipenv shell` to enter your virtual environment before running your code.**
 
-```console
-.
-├── Pipfile
-├── Pipfile.lock
-├── README.md
-└── lib
-    ├── models
-    │   ├── __init__.py
-    │   └── model_1.py
-    ├── cli.py
-    ├── debug.py
-    └── helpers.py
-```
-
-Note: The directory also includes two files named `CONTRIBUTING.md` and
-`LICENSE.md` that are specific to Flatiron's curriculum. You can disregard or
-delete the files if you want.
-
----
-
-## Generating Your Environment
-
-You might have noticed in the file structure- there's already a Pipfile!
-
-Install any additional dependencies you know you'll need for your project by
-adding them to the `Pipfile`. Then run the commands:
-
-```console
+```bash
 pipenv install
 pipenv shell
 ```
+The file `lib/seed.py` contains code to initialize the database with sample
+playlists and songs. Run the following command to seed the database:
 
----
+```bash
+python lib/seed.py
+```
+The file `lib/cli.py` contains a command line interface for our music streaming database
+application.
 
-## Generating Your CLI
-
-A CLI is, simply put, an interactive script and prompts the user and performs
-operations based on user input.
-
-The project template has a sample CLI in `lib/cli.py` that looks like this:
-
-```py
-# lib/cli.py
-
-from helpers import (
-    exit_program,
-    helper_1
-)
-
-
-def main():
-    while True:
-        menu()
-        choice = input("> ")
-        if choice == "0":
-            exit_program()
-        elif choice == "1":
-            helper_1()
-        else:
-            print("Invalid choice")
-
-
-def menu():
-    print("Please select an option:")
-    print("0. Exit the program")
-    print("1. Some useful function")
-
-
-if __name__ == "__main__":
-    main()
+Run the CLI by executing the command:
+```bash
+python lib/cli.py
 ```
 
-The helper functions are located in `lib/helpers.py`:
+## Navigate through the CLI Menus:
 
-```py
-# lib/helpers.py
+Use the following options to navigate through the menus:
 
-def helper_1():
-    print("Performing useful function#1.")
+Type 'E' or 'e' to exit the program.
 
+Type 'P' or 'p' to see the playlists menu.
 
-def exit_program():
-    print("Goodbye!")
-    exit()
-```
+Inside the playlists menu:
 
-You can run the template CLI with `python lib/cli.py`, or include the shebang
-and make it executable with `chmod +x`. The template CLI will ask for input, do
-some work, and accomplish some sort of task.
+Type 'L' or 'l' to see existing playlists.
+Type 'A' or 'a' to add a new playlist.
+Type 'D' or 'd' to delete a playlist.
+Type 'F' or 'f' to find a playlist by ID.
+Type 'N' or 'n' to find a playlist by name.
+Type 'B' or 'b' to go back to the main menu.
+Type 'E' or 'e' to exit the program.
 
-Past that, CLIs can be whatever you'd like, as long as you follow the project
-requirements.
+Inside the songs menu (activated when viewing playlists):
 
-Of course, you will update `lib/cli.py` with prompts that are appropriate for
-your application, and you will update `lib/helpers.py` to replace `helper_1()`
-with a useful function based on the specific problem domain you decide to
-implement, along with adding other helper functions to the module.
+Select a playlist number to view songs in the playlist.
+Type 'all' to list all songs.
+Type 'A' or 'a' to add a new song.
+Type 'D' or 'd' to delete a song.
+Type 'F' or 'f' to find a song by ID.
+Type 'T' or 't' to find a song by title.
+Type 'B' or 'b' to go back to the playlist menu.
 
-In the `lib/models` folder, you should rename `model_1.py` with the name of a
-data model class from your specific problem domain, and add other classes to the
-folder as needed. The file `lib/models/__init__.py` has been initialized to
-create the necessary database constants. You need to add import statements to
-the various data model classes in order to use the database constants.
+Follow the prompts above to perform various actions such as creating playlists, adding or deleting songs, and finding playlists or songs.
 
-You are also welcome to implement a different module and directory structure.
-However, your project should be well organized, modular, and follow the design
-principal of separation of concerns, which means you should separate code
-related to:
+Type 'E' or 'e' at any time to exit the program.
 
-- User interface
-- Data persistence
-- Problem domain rules and logic
+## Available Actions
+* Create Playlist:
+Add a new playlist with a specified name and creator.
 
----
+* Delete Playlist:
+Delete an existing playlist by providing its ID.
 
-## Updating README.md
+* Find Playlist by ID or Find Playlist by Name:
+Find a playlist by either its numerical ID or name.
 
-`README.md` is a Markdown file that should describe your project. You will
-replace the contents of this `README.md` file with a description of **your**
-actual project.
+* List All Playlists:
+Display a list of all existing playlists.
 
-Markdown is not a language that we cover in Flatiron's Software Engineering
-curriculum, but it's not a particularly difficult language to learn (if you've
-ever left a comment on Reddit, you might already know the basics). Refer to the
-cheat sheet in this assignments's resources for a basic guide to Markdown.
+* Add Song to Playlist:
+Add a new song to a specified playlist.
 
-### What Goes into a README?
+* Delete Song:
+Delete an existing song by providing its ID.
 
-This README serves as a template. Replace the contents of this file to describe
-the important files in your project and describe what they do. Each Python file
-that you edit should get at least a paragraph, and each function should be
-described with a sentence or two.
+* Find Song by ID or Find Song by Title:
+Find a song by either its numerical ID or title.
 
-Describe your actual CLI script first, and with a good level of detail. The rest
-should be ordered by importance to the user. (Probably functions next, then
-models.)
+* List All Songs:
+Display a list of all existing songs.
 
-Screenshots and links to resources that you used throughout are also useful to
-users and collaborators, but a little more syntactically complicated. Only add
-these in if you're feeling comfortable with Markdown.
+## Helper Functions
+The helper functions are housed in lib/helpers.py which is imported into the cli.py file to clearly state and facilitate the management of playlists and songs within the music playlist manager. Below is a brief description of each function.
 
----
+1. exit_program():
+Exits the program and prints the farewell message, "Happy Listening!".
+
+2. list_playlists():
+Lists all playlists by fetching and displaying information from the Playlist model.
+
+3. create_playlist():
+Creates a new playlist by taking user input for the playlist name and creator. Handles exceptions and prints a success message upon playlist creation.
+
+4. delete_playlist():
+Deletes a playlist by accepting the playlist's ID as input. Checks if the playlist exists, deletes it, and prints a confirmation message.
+
+5. find_playlist_by_id():
+Finds and displays a playlist by accepting the playlist's ID as input.
+
+6. find_playlist_by_name():
+Finds and displays a playlist by accepting the playlist's name as input.
+
+7. list_songs_by_playlist(id_):
+Lists all songs in a playlist by accepting the playlist's ID as input. Retrieves the playlist, fetches its songs, and prints song information.
+
+8. list_all_songs():
+Lists all songs by fetching and displaying information from the Song model.
+
+9. create_song():
+Creates a new song by taking user input for the song's title, artist, duration, and playlist ID. Handles exceptions and prints a success message upon song creation.
+
+10. delete_song():
+Deletes a song by accepting the song's ID as input. Checks if the song exists, deletes it, and prints a confirmation message.
+
+11. find_song_by_id():
+Finds and displays a song by accepting the song's ID as input.
+
+12. find_song_by_title():
+Finds and displays a song by accepting the song's title as input.
+
+## Playlist Model:
+
+The Playlist class has the following attributes:
+
+* id: Playlist ID.
+* name: Playlist name.
+* creator: Playlist creator.
+
+The property methods are:
+name
+* Getter: Returns the playlist name.
+* Setter: Validates and sets the playlist name.
+
+creator
+* Getter: Returns the playlist creator.
+* Setter: Validates and sets the playlist creator.
+
+Below are a list of class methods that are utilized by the helper functions:
+1. create_table()
+* Creates a new table in the database to persist Playlist instances.
+
+2. drop_table()
+* Drops the table that persists Playlist instances.
+
+3. save()
+* Inserts a new row with the name and creator values, updates object id, and saves in a local dictionary.
+
+4. create(name, creator)
+* Initializes a new Playlist instance and saves it to the database.
+
+5. delete()
+* Deletes the table row, dictionary entry, and reassigns id to None.
+
+6. instance_from_db(row)
+* Returns a Playlist object with attribute values from the table row.
+
+7. get_all()
+* Returns a list with one Playlist object per table row.
+
+8. find_by_id(id)
+* Returns a Playlist object for the table row matching the specified primary key.
+
+9. find_by_name(name)
+* Returns a Playlist object for the first table row matching the specified name.
+
+10. songs()
+* Returns a list of songs associated with the current playlist.
+
+## Song Model
+The Song class has the following attributes:
+
+* id: Song ID.
+* title: Song title.
+* artist: Song artist.
+* duration: Song duration.
+* playlist_id: Playlist ID associated with the song.
+
+The property methods are similar to those of the playlist model with the only difference being the class attributes aligning with the song class for methods like create, find_by_id, find_by_title. The Song class is designed to be used within the larger music playlist manager application, interacting with a database to manage all songs associated with playlists.
 
 ## Conclusion
-
-A lot of work goes into a good CLI, but it all relies on concepts that you've
-practiced quite a bit by now. Hopefully this template and guide will get you off
-to a good start with your Phase 3 Project.
-
-Happy coding!
-
----
-
-## Resources
-
-- [Markdown Cheat Sheet](https://www.markdownguide.org/cheat-sheet/)
+The collaboration between the Song and Playlist classes allows for seamless interaction between songs and playlists, enhancing the functionality of the overall music management system.
