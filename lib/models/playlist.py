@@ -8,9 +8,10 @@ class Playlist:
         self.id = id
         self.name = name
         self.creator = creator
-
+    '''
     def __repr__(self):
         return f"Playlist {self.id}: {self.name}, {self.creator}"
+    '''
     
     @property
     def name(self):

@@ -11,12 +11,13 @@ class Song:
         self.artist = artist
         self.duration = duration
         self.playlist_id = playlist_id
-
+    '''
     def __repr__(self):
         return (
             f"Song {self.id}: {self.title} - {self.artist}, Duration: {self.duration}, " +
             f"Playlist {self.playlist_id}"
         )
+        '''
     
     @property
     def title(self):
@@ -53,7 +54,7 @@ class Song:
         if isinstance(duration, (int, float)) and duration >= 0:
             self._duration = duration
         else:
-            raise ValueError("Duration must be a non-negative number")
+            raise ValueError("Duration must be a non-negative number or decimal")
 
     @property
     def playlist_id(self):

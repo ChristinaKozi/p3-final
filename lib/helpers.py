@@ -7,27 +7,30 @@ def exit_program():
     exit()
 
 def list_playlists():
-    print("*** Playlists ***")
+    print("\n*** Playlists ***")
     playlists = Playlist.get_all()
-    for playlist in playlists:
-        print(playlist)
+    for index, playlist in enumerate(playlists, start=1):
+        print(f"{index}: {playlist.name}, {playlist.creator}")
 
 def create_playlist():
     name = input("Enter playlist name: ")
     creator = input("Enter playlist creator: ")
     try:
         playlist = Playlist.create(name, creator)
-        print(f'Playlist created: {playlist}')
+        print(f'\nPlaylist created: {playlist.name}')
     except Exception as exc:
-        print("Error creating department: ", exc)
+        print("\nError creating department: ", exc)
 
 def delete_playlist():
-    id_ = input("Enter the playlist's id: ")
+    id_ = input("Enter the playlist's number: ")
     if playlist := Playlist.find_by_id(id_):
+        songs = playlist.songs()
+        for song in songs:
+            song.delete()
         playlist.delete()
-        print(f'Playlist {id_} deleted')
+        print(f'\nPlaylist {id_} deleted')
     else:
-        print(f'Playlist {id_} not found')
+        print(f'\nPlaylist {id_} not found')
 
 def find_playlist_by_id():
     id_ = input("Enter the playlist's id: ")
@@ -37,31 +40,30 @@ def find_playlist_by_id():
 def find_playlist_by_name():
     name = input("Enter the playlist's name: ")
     playlist = Playlist.find_by_name(name)
-    print(playlist) if playlist else print(
-        f'Playlist {name} not found')
+    print(f"\nPlaylist found: {playlist.name}, {playlist.creator}") if playlist else print(
+        f'\nPlaylist {name} not found')
 
 def list_songs_by_playlist(id_):
     playlist = Playlist.find_by_id(id_)
+    print(f"\n*** Songs in {playlist.name} ***")
     if playlist:
         songs = playlist.songs()
-        for song in songs:
-            print(song)
+        for index, song in enumerate(songs, start=1):
+            print(f"{index}. {song.title} - {song.artist}, Duration: {song.duration}")
     else:
-        print(f'Playlist {id_} not found')
+        print(f'\nPlaylist {id_} not found')
 
 def list_all_songs():
+    print("\n*** All Songs ***")
     songs = Song.get_all()
-    for song in songs:
-        print(song)
+    for index, song in enumerate(songs, start=1):
+        print(f"{index}. {song.title} - {song.artist}, Duration: {song.duration}")
 
-def create_song():
+def create_song(playlist_id):
     title = input("Enter the songs's title: ")
     artist = input("Enter the song's artist: ")
     duration_input = input("Enter the song's duration: ")
-    playlist_id_input = input("Enter the song's playlist id: ")
-
     try:
-        playlist_id = int(playlist_id_input)
         playlist = Playlist.find_by_id(playlist_id)
         if not playlist:
             raise ValueError(f'Playlist {playlist_id} not found')
@@ -69,17 +71,18 @@ def create_song():
         duration = float(duration_input)
 
         song = Song.create(title, artist, duration, playlist_id)
-        print(f'Success: {song}')
+        print(f'\nSuccess: {song.title} - {song.artist}, Duration: {song.duration} added to {playlist.name}')
     except ValueError as exc:
-        print("Error creating song: ", exc)
+        print("\nError creating song: ", exc)
 
-def delete_song():
-    id_ = input("Enter the song's id: ")
-    if song := Song.find_by_id(id_):
+def delete_song(playlist_id):
+    song_number = int(input("Enter the song's number: "))
+    if songs := Playlist.find_by_id(playlist_id).songs():
+        song = songs[song_number - 1]
         song.delete()
-        print(f'Song {id_} deleted')
+        print(f'\nSong {song_number} deleted')
     else:
-        print(f'Song {id_} not found')
+        print(f'\nSong {song_number} not found')
 
 def find_song_by_id():
     id_ = input("Enter the song's id: ")
@@ -89,5 +92,5 @@ def find_song_by_id():
 def find_song_by_title():
     title = input("Enter the song's title: ")
     song = Song.find_by_title(title)
-    print(song) if song else print(
-        f'Song {title} not found')
+    print(f"\nSong found: {song.title} - {song.artist}, Duration: {song.duration}") if song else print(
+        f'\nSong {title} not found')
