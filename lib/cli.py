@@ -51,6 +51,7 @@ def playlist_menu():
             create_playlist()
             list_playlists()
         elif choice == "d":
+            list_playlists()
             delete_playlist()
             list_playlists()
         elif choice == "n":
